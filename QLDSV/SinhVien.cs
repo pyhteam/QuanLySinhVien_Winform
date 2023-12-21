@@ -100,7 +100,11 @@ namespace QLDSV
             string sql = "SELECT * FROM LopHoc";
             SqlCommand command = new SqlCommand(sql);
             table.Fill(command);
-
+            // add item All vào combobox
+            DataRow dr = table.NewRow();
+            dr["MaLop"] = "";
+            dr["TenLop"] = "Tất cả";
+            table.Rows.InsertAt(dr, 0);
             comboBox.DataSource = table;
             comboBox.DisplayMember = "TenLop";
             comboBox.ValueMember = "MaLop";
@@ -216,6 +220,30 @@ namespace QLDSV
                 bindingNavigator.BindingSource.MoveLast();
             }
         }
-    }
+
+		private void btnTimKiem_Click(object sender, EventArgs e)
+		{
+            string searchValue = txtTimKiem.Text;
+            string sql = "SELECT * FROM SinhVien WHERE MaSinhVien LIKE '%" + searchValue + "%' OR HoVaTen LIKE '%" + searchValue + "%' OR MaLop LIKE '%" + searchValue + "%' OR MaQueQuan LIKE '%" + searchValue + "%'";
+            SqlCommand command = new SqlCommand(sql);
+            dataTable.Fill(command);
+            dataGridView.DataSource = null;
+            BindingSource binding = new BindingSource();
+            binding.DataSource = dataTable;
+            dataGridView.DataSource = binding;
+            bindingNavigator.BindingSource = binding;
+		}
+
+		private void cboMalop_SelectedIndexChanged(object sender, EventArgs e)
+		{
+            string sql = "SELECT * FROM  SinhVien WHERE MaLop LIKE '%" + cboMalop.SelectedValue.ToString() + "%'";
+            SqlCommand command = new SqlCommand(sql);
+            dataTable.Fill(command);
+            dataGridView.DataSource = null;
+            BindingSource binding = new BindingSource();
+            binding.DataSource = dataTable;
+            dataGridView.DataSource = binding;
+		}
+	}
 }
     

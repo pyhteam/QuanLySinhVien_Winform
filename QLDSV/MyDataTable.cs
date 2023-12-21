@@ -23,7 +23,7 @@ namespace QLDSV
     public string ConnectionString()
     {
         SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-        builder["Server"] = ".\\SQLEXPRESS02";
+        builder["Server"] = "(local)";
         builder["Database"] = "QLDSV1";
         builder["Integrated Security"] = "True";
         return builder.ConnectionString;
